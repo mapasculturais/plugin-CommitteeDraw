@@ -23,6 +23,8 @@ class Plugin extends \MapasCulturais\Plugin
     function register()
     {
         $app = App::i();
+
+        $app->registerController('committeedraw', Controller::class);
     }
 
     function _init() 
