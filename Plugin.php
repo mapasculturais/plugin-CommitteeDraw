@@ -25,6 +25,13 @@ class Plugin extends \MapasCulturais\Plugin
         $app = App::i();
 
         $app->registerController('committeedraw', Controller::class);
+
+        $file_group = new Definitions\FileGroup(
+            'committeeDraw',
+            ['text/csv', 'application/excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'],
+            i::__('O arquivo não é válido'),
+        );
+        $app->registerFileGroup('opportunity', $file_group);
     }
 
     function _init() 
