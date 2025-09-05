@@ -47,6 +47,11 @@ class Plugin extends \MapasCulturais\Plugin
                 $this->part('committee-draws-overview');
             }
         });
+
+        // Exibição do componente de sorteio na tela de comissão de avaliação
+        $app->hook('component(opportunity-evaluation-committee).select-entity:end', function() {
+            $this->part('committee-draws');
+        });
     }
 
     static function getInstance()
