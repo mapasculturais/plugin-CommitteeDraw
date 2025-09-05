@@ -52,6 +52,11 @@ class Plugin extends \MapasCulturais\Plugin
         $app->hook('component(opportunity-evaluation-committee).select-entity:end', function() {
             $this->part('committee-draws');
         });
+
+        // Adiciona css na single de sorteio
+        $app->hook('GET(committeedraw.single):before', function() use($app) {
+            $app->view->enqueueStyle('app-v2', 'commiittee-draws-audit', 'css/committee-draws-audit.css');
+        });
     }
 
     static function getInstance()
