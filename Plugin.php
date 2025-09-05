@@ -38,6 +38,15 @@ class Plugin extends \MapasCulturais\Plugin
     {
         $app = App::i();
         $self = $this;
+
+        // Exibição da listagem de sorteios na single da oportunidade
+        $app->hook('template(opportunity.single.entity-seals):begin', function() {
+            $entity = $this->controller->requestedEntity;
+
+            if($entity->getClassName() == Opportunity::class) {
+                $this->part('committee-draws-overview');
+            }
+        });
     }
 
     static function getInstance()
