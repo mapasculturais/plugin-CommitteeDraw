@@ -10,4 +10,4 @@ $this->import('
 ');
 ?>
 
-<committee-draws :entity="entity" :committee-name="group"></committee-draws>
+<committee-draws :entity="entity" :committee-name="group" @draw-created="loadReviewers"></committee-draws>

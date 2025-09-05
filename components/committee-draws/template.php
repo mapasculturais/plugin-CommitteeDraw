@@ -8,6 +8,7 @@
 use MapasCulturais\i;
 
 $this->import('
+    mc-loading
     mc-popover
 ');
 ?>
@@ -39,9 +40,11 @@ $this->import('
                         <input type="file" ref="file">
                     </div>
 
-                    <div class="col-12">
+                    <mc-loading :condition="loading"><?php i::_e('Sorteando') ?></mc-loading>
+
+                    <div v-if="!loading" class="col-12">
                         <button class="col-6 button button--text" type="reset" @click="close"> <?php i::_e("Cancelar") ?> </button>
-                        <button class="col-6 button button--primary" type="submit" @click="close"> <?php i::_e("Confirmar") ?> </button>
+                        <button class="col-6 button button--primary" type="submit" @click="close" :disabled="!numberOfValuers || numberOfValuers <= 0"> <?php i::_e("Confirmar") ?> </button>
                     </div>
                 </div>
             </form>

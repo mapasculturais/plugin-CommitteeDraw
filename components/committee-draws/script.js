@@ -1,5 +1,6 @@
 app.component('committee-draws', {
     template: $TEMPLATES['committee-draws'],
+    emits: ['draw-created'],
 
     props: {
         entity: {
@@ -13,9 +14,15 @@ app.component('committee-draws', {
         }
     },
 
+    setup() {
+        const text = Utils.getTexts('committee-draws')
+        return { text }
+    },
+
     data() {
         return {
-            numberOfValuers: null
+            numberOfValuers: null,
+            loading: false
         }
     },
 
@@ -30,15 +37,17 @@ app.component('committee-draws', {
 
     methods: {
         async createCommitteeDraw(event) {
+            this.loading = true;
+
             let data = {
                 description: `Sorteio de número: ${this.drawNumber} na comissão ${this.committeeName}`,
                 group: 'committeeDraw',
             }
-
+            
+            const messages = useMessages();
             const inputFile = this.$refs.file;
             if (!inputFile.files[0]) {
-                const messages = useMessages();
-                messages.error('Nenhum arquivo selecionado');
+                messages.error(this.text('Nenhum arquivo selecionado'));
                 return;
             }
 
@@ -54,12 +63,21 @@ app.component('committee-draws', {
                     committeeName: this.committeeName
                 };
 
-                await api.POST(url, props).then((data) => {
-                    console.log('DATA', data);
+                await api.POST(url, props).then(res => res.json()).then(data => {
+                    if(data.error) {
+                        messages.error(data.data);
+                    } else {
+                        this.numberOfValuers = null;
+                        this.$emit('draw-created');
+                        messages.success(this.text('Sorteio de avaliadores finalizado com sucesso'));
+                    }
+
+                    this.loading = false;
                 });
             } catch (error) {
-                console.error(error);
+                this.loading = false;
+                console.log(error);
             }
-        }
+        },
     },
 });
