@@ -39,6 +39,10 @@ class Plugin extends \MapasCulturais\Plugin
         $app = App::i();
         $self = $this;
 
+        $app->hook('mapas.printJsObject:before', function () use($app) {
+            $this->jsObject['EntitiesDescription']['committeedraw'] = Entities\CommitteeDraw::getPropertiesMetadata();
+        }, 100);
+
         // Exibição da listagem de sorteios na single da oportunidade
         $app->hook('template(opportunity.single.entity-seals):begin', function() {
             $entity = $this->controller->requestedEntity;
