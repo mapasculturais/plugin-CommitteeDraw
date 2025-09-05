@@ -1,0 +1,23 @@
+.main-app.committeedraw.single mc-breadcrumb {
+  margin-bottom: 3rem;
+  display: block;
+}
+
+
+.committee-draws-audit {
+  margin-top: 5rem;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.committee-draws-audit h4,
+.committee-draws-audit h5 {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.committee-draws-audit p,
+.committee-draws-audit ul,
+.committee-draws-audit ol {
+  margin-bottom: 1rem;
+}
