@@ -22,16 +22,8 @@ app.component('committee-draws', {
     data() {
         return {
             numberOfValuers: null,
-            loading: false
-        }
-    },
-
-    computed: {
-        drawNumber() {
-            const draws = $MAPAS.config.committeeDraws || [];
-            const match = draws.find(draw => draw.committee_name == this.committeeName);
-
-            return match ? match.next_draw_number : 1;
+            loading: false,
+            drawNumber: 1
         }
     },
 
@@ -65,9 +57,10 @@ app.component('committee-draws', {
 
                 await api.POST(url, props).then(res => res.json()).then(data => {
                     if(data.error) {
-                        messages.error(data.data);
+                        messages.error(data.data || data.message);
                     } else {
                         this.numberOfValuers = null;
+                        this.drawNumber = data.drawNumber + 1;
                         this.$emit('draw-created');
                         messages.success(this.text('Sorteio de avaliadores finalizado com sucesso'));
                     }
@@ -76,8 +69,15 @@ app.component('committee-draws', {
                 });
             } catch (error) {
                 this.loading = false;
+                messages.error(error.data || error.data?.committeeDraw[0]);
                 console.log(error);
             }
         },
     },
+
+    mounted() {
+        const draws = $MAPAS.config.committeeDraws || [];
+        const match = draws.find(draw => draw.committee_name == this.committeeName);
+        this.drawNumber = match ? match.next_draw_number : 1;
+    }
 });
