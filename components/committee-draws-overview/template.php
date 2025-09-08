@@ -9,7 +9,7 @@ use MapasCulturais\i;
 
 ?>
 
-<div class="committee-draws-overview">
+<div v-if="list?.length > 0" class="committee-draws-overview">
     <h4 class="bold">
         <?php i::_e('Sorteio de pareceristas') ?>
     </h4>
