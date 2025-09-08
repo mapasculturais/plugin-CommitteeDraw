@@ -21,7 +21,7 @@ Nome da comissão (`$committee_name`);
 
 Número do sorteio (`$draw_number`);
 
-Lista original de IDs dos avaliadores (`$items`).
+Lista original de IDs dos avaliadores (`$valuer_ids`).
 
 #### 2. Gerar o seed original (exatamente como implementado):
 
