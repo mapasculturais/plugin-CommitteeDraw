@@ -3,6 +3,11 @@
 namespace CommitteeDraw;
 
 use MapasCulturais\App;
+use MapasCulturais\Definitions;
+use MapasCulturais\Entities\File;
+use MapasCulturais\Entities\Opportunity;
+use MapasCulturais\i;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class Plugin extends \MapasCulturais\Plugin
 {
@@ -59,7 +64,38 @@ class Plugin extends \MapasCulturais\Plugin
 
         // Adiciona css na single de sorteio
         $app->hook('GET(committeedraw.single):before', function() use($app) {
-            $app->view->enqueueStyle('app-v2', 'commiittee-draws-audit', 'css/committee-draws-audit.css');
+            $app->view->enqueueStyle('app-v2', 'committee-draws-audit', 'css/committee-draws-audit.css');
+        });
+
+        // Validação do arquivo de sorteio
+        $app->hook('entity(OpportunityFile).upload.filesSave:before', function(File $file) use($app) {
+            /** @var ControllerUploads $this */
+            if($file->group != 'committeeDraw') {
+                return;
+            }
+
+            $spreadsheet = IOFactory::load($file->tmpFile['tmp_name']);
+            $sheet = $spreadsheet->getActiveSheet();
+
+            $highest_row = $sheet->getHighestRow();
+            $agent_ids = [];
+            for ($row = 2; $row <= $highest_row; $row++) {
+                $id = $sheet->getCell('A'.$row)->getValue();
+
+                if (!$id) {
+                    $this->errorJson(sprintf(i::__("Linha %d inválida: id ausente."), $row));
+                }
+
+                $agent_ids[] = (int) $id;
+            }
+
+            foreach ($agent_ids as $agent_id) {
+                $agent = $app->repo('Agent')->find($agent_id);
+
+                if (!$agent || $agent->type->id != 1) {
+                    $this->errorJson(sprintf(i::__("Agente de id %d inválido."), $agent_id));
+                }
+            }
         });
     }
 
