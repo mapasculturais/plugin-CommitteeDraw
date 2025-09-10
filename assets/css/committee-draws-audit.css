@@ -21,3 +21,7 @@
 .committee-draws-audit ol {
   margin-bottom: 1rem;
 }
+
+.committee-draws .input-number {
+  width: 75px;
+}
