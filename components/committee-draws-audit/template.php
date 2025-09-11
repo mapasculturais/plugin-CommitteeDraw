@@ -3,39 +3,100 @@
 /**
  * @var MapasCulturais\App $app
  * @var MapasCulturais\Themes\BaseV2\Theme $this
+ * @var CommitteeDraw $entity
  */
+
+use CommitteeDraw\Entities\CommitteeDraw;
 
 use MapasCulturais\i;
 ?>
-
 <div class="committee-draws-audit">
-    <h4 class="bold">{{entity.evaluationMethodConfiguration.name}} - {{entity.committeeName}} - <?php i::_e('sorteio') ?> #{{entity.drawNumber}}</h4>
+    <h2><?= i::__('Explicação simplificada') ?></h2>
+    <p><?= i::__('O sistema realiza sorteios de avaliadores de forma transparente e auditável. Usamos um "número de controle" único (chamado seed) gerado a partir de informações fixas da comissão (ID da configuração da fase, nome da comissão e número do sorteio). Esse número garante que o mesmo conjunto de dados sempre produzirá o mesmo resultado. Qualquer pessoa pode verificar o processo, bastando reunir as informações originais e repetir os passos do sorteio.') ?></p>
 
-    <p><?php i::_e('Este sorteio foi realizado de forma') ?> <strong><?php i::_e('auditável') ?></strong>.</p>
+    <h2><?= i::__('Explicação Técnica para Auditoria em PHP') ?></h2>
+    <p><?= i::__('A implementação do sorteio auditável utiliza a função auditableDraw, que depende de um seed determinístico para inicializar o gerador de números pseudoaleatórios do PHP (srand). O seed é criado a partir das seguintes variáveis') ?>:</p>
+    <ul>
+        <li><strong><code>$evaluati/on_method_configuration_id</code></strong> - <em><?= i::__('ID da configuração da fase de avaliação') ?></em>;</li>
+        <li><strong><code>$committee_name</code></strong> - <em><?= i::__('nome da comissão') ?></em>;</li>
+        <li><strong><code>$draw_number</code></strong> - <em><?= i::__('número sequencial do sorteio na comissão') ?></em>.</li>
+    </ul>
 
-    <p><?php i::_e('Isso significa que qualquer pessoa pode verificar de maneira independente que o resultado não foi manipulado.') ?></p>
-
-    <h5 class="bold"><?php i::_e('Como funciona?') ?></h5>
-
-    <ol>
+    <h3><?= i::__('Passos para auditoria') ?>:</h3>
+    <ol>        
         <li>
-            <?php i::_e('Todo sorteio usa uma') ?> <strong><?php i::_e('semente fixa (seed)') ?></strong>,
-            <?php i::_e('que é um número único calculado a partir das informações do sorteio:') ?>
-            <ul>
-                <li><?php i::_e('ID da configuração de avaliação:') ?> <strong>{{entity.evaluationMethodConfiguration.id}}</strong></li>
-                <li><?php i::_e('Nome da comissão:') ?> <strong>{{entity.committeeName}}</strong></li>
-                <li><?php i::_e('Número do sorteio:') ?> <strong>{{entity.drawNumber}}</strong></li>
-            </ul>
-            <?php i::_e('Essa combinação gera o valor da') ?> <strong><?php i::_e('seed') ?></strong>:
-            <p><strong>{{entity.seed}}</strong></p>
+            <h4><?= i::__('Função <strong>auditableDraw</strong> para reproduzir o sorteio') ?>:</h4>
+            <?php highlight_string('<?php
+function auditableDraw($seed, $valuer_ids, $number_of_valuers): array {
+        // Inicializa o gerador com o seed
+        srand($seed);
+
+        // embaralha os ids dos avaliadores baseado
+        shuffle($valuer_ids); 
+        
+        // Seleciona os N primeiros avaliadores
+        $selected_valuers = array_slice($valuer_ids, 0, $number_of_valuers);
+
+        return $selected_valuers;
+}
+') ?>
+        </li>
+        <li>
+            <h4><?= i::__('Dados de entrada utilizados neste sorteio') ?>:</h4>
+            <?php highlight_string('<?php
+// número de avaliadores que devem ser selecionados
+$number_of_valuers = ' . $entity->numberOfValuers . ';
+
+// ID da configuração da fase de avaliação
+$evaluation_method_configuration_id = ' . $entity->evaluationMethodConfiguration->id . '; 
+
+// nome da comissão
+$committee_name = "' . $entity->committeeName . '";
+
+// número sequencial do sorteio na comissão
+$draw_number = ' . $entity->drawNumber . ';
+
+// horário do sorteio
+$timestamp = "' . $entity->createTimestamp->format('Y-m-d H:i:s') . '";
+
+// lista com todos os ids dos avaliadores enviados na planilha
+$valuer_ids = ' . json_encode($entity->inputValuers) . ';
+
+// Ordena os IDs para garantir resultado consistente, independente da ordem de entrada
+sort($valuer_ids);
+
+// cria uma string com a lista de ids dos avaliadores, ordenados de maneira crescente
+$valuers_string = json_encode($valuers_string);   
+') ?>
         </li>
 
-        <li>
-            <?php i::_e('A partir dessa seed, é feito um shuffle (embaralhamento) da lista de avaliadores.') ?>
-        </li>
 
         <li>
-            <?php i::_e('Os primeiros') ?> {{entity.numberOfValuers}} <?php i::_e('nomes da lista embaralhada são escolhidos como resultado final do sorteio.') ?>
+            <h4><?= i::__('Gerar o seed original (exatamente como implementado)') ?>:</h4>
+            <?php highlight_string('<?php
+// cria o seed para enviar ao auditableDraw
+$seed = crc32("$evaluation_method_configuration_id:$committee_name:$draw_number:$timestamp:$valuers_string");
+            ') ?>
         </li>
+
+
+        <li>
+            <h4><?= i::__('Comparar o resultado com o registro armazenado no sistema') ?>:</h4>
+            <?php highlight_string('<?php
+// obtém o resultado do sorteio
+$resultado = auditableDraw($seed, $valuer_ids, $number_of_valuers);
+
+// exibe o resultado do sorteio (ids dos avaliadores selecionados)
+print_r($resultado); // Deve ser idêntico ao resultado original registrado
+            ') ?>
+        </li>
+
     </ol>
+
+    <h3>Por que é Auditável?</h3>
+    <ul>
+        <li>O <strong>seed</strong> é derivado de dados imutáveis e públicos (ID da configuração, nome da comissão e número do sorteio);</li>
+        <li><strong>srand()</strong> e <strong>shuffle()</strong> são determinísticos quando inicializados com o mesmo seed;</li>
+        <li>A função shuffle do PHP usa o gerador Mersenne Twister, que é reproduzível com o mesmo seed.</li>
+    </ul> 
 </div>

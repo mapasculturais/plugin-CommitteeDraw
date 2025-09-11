@@ -1,11 +1,15 @@
-.main-app.committeedraw.single mc-breadcrumb {
+.committeedraw.single .mc-breadcrumb {
   margin-bottom: 3rem;
   display: block;
 }
 
+.controller-committeedraw.action-single .container {
+  grid-template-columns: 100%;
+}
+
 
 .committee-draws-audit {
-  margin-top: 5rem;
+  /* margin-top: 5rem; */
   line-height: 1.6;
   font-size: 1rem;
 }
@@ -20,6 +24,12 @@
 .committee-draws-audit ul,
 .committee-draws-audit ol {
   margin-bottom: 1rem;
+}
+
+.committee-draws-audit pre {
+  padding: 1em;
+  background-color:#eee;
+  overflow-x: auto;
 }
 
 .committee-draws .input-number {

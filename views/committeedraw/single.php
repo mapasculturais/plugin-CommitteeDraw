@@ -4,13 +4,18 @@ use MapasCulturais\i;
 $this->layout = 'entity';
 
 $this->import('
+committee-draws-overview
+    committee-draws-result
     committee-draws-audit
+    entity-header
     mc-breadcrumb
     mc-container
+    mc-tabs
+    mc-title
 ');
 
 $committee_draw = $this->controller->requestedEntity;
-$opportunity = $committee_draw->evaluationMethodConfiguration->opportunity;
+$opportunity = $committee_draw->evaluationMethodConfiguration->opportunity->firstPhase;
 $entity_name = sprintf(
     i::__('%s - %s - sorteio #%d'),
     $committee_draw->evaluationMethodConfiguration->name,
@@ -25,14 +30,25 @@ $this->breadcrumb = [
 ];
 
 ?>
-<div class="main-app committeedraw single">
+<div class="main-app single-1">
     <mc-breadcrumb></mc-breadcrumb>
+    <entity-header :entity="entity.evaluationMethodConfiguration.opportunity.parent">
+        <template #description>
+            <mc-title><?= $entity_name ?></mc-title>
+        </template>
+    </entity-header>
     
-    <mc-container>
-        <main class="grid-12">
-            <div>
+    <mc-tabs class="tabs" sync-hash>
+        <mc-tab icon="exclamation" label="<?= i::_e('Resultado do sorteio') ?>" slug="result">
+            <mc-container>
+                <committee-draws-result :entity="entity"></committee-draws-result> 
+                
+            </mc-container>
+        </mc-tab>
+        <mc-tab icon="info" label="<?= i::_e('Como funciona o sorteio de avaliadores e sua auditoria') ?>" slug="audit">
+            <mc-container>
                 <committee-draws-audit :entity="entity"></committee-draws-audit>
-            </div>
-        </main>
-    </mc-container>
+            </mc-container>
+        </mc-tab>
+    </mc-tabs>
 </div>

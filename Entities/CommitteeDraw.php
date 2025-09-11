@@ -115,6 +115,11 @@ class CommitteeDraw extends \MapasCulturais\Entity
      */
     protected int $status = Entity::STATUS_ENABLED;
 
+    public static function getControllerId()
+    {
+        return 'committeedraw';
+    }
+
     public function __construct(EvaluationMethodConfiguration $evaluation_method_configuration, string $committee_name, OpportunityFile $file, int $number_of_valuers, ?User $user = null)
     {
         $app = App::i();
@@ -128,18 +133,10 @@ class CommitteeDraw extends \MapasCulturais\Entity
         $this->drawNumber = self::nextDrawNumber($evaluation_method_configuration, $committee_name);
         $this->seed = $this->generateSeed();
         $this->inputValuers = $this->extractIdsFromSpreadsheet();
-        $this->outputValuers = $this->auditableDraw();
-
+        
         parent::__construct();
-    }
 
-    public static function getControllerId()
-    {
-        return 'committeedraw';
-    }
-
-    public function generateSeed() : string {
-        return (string) crc32($this->evaluationMethodConfiguration->id . $this->committeeName . $this->drawNumber);
+        $this->outputValuers = $this->auditableDraw();
     }
 
     /**
@@ -157,50 +154,50 @@ class CommitteeDraw extends \MapasCulturais\Entity
         $ids = [];
         foreach ($data as $row) {
             if (isset($row[0])) {
-                $ids[] = $row[0];
+                $ids[] = (int) $row[0];
             }
         }
 
         return $ids;
     }
 
+    public function generateSeed() : int {
+        $evaluation_method_configuration_id = $this->evaluationMethodConfiguration->id;
+        $committee_name = $this->committeeName;
+        $draw_number = $this->drawNumber;
+        
+        $valuers_ids = $this->inputValuers;
+        sort($valuers_ids);
+        $valuers_ids = json_encode($valuers_ids);
+
+        $timestamp = $this->createTimestamp->format('Y-m-d H:i:s');
+
+        $seed = crc32("$evaluation_method_configuration_id:$committee_name:$draw_number:$timestamp:$valuers_ids");
+
+        return $seed;
+    }
+
     /** 
-     * Ids dos agentes sorteados
+     * Retorna os ids dos agentes sorteados
      *
      * @return int[] 
      */
     public function auditableDraw(): array {
-        mt_srand($this->seed);
+        $valuer_ids = $this->inputValuers;
 
-        $shuffled_items = $this->inputValuers;
-        shuffle($shuffled_items);
+        // Ordena os IDs para garantir resultado consistente, independente da ordem de entrada
+        sort($valuer_ids);
+        
+        // Inicializa o gerador com o seed
+        srand($this->seed);
 
-        $winners = array_slice($shuffled_items, 0, $this->numberOfValuers);
+        // embaralha os ids dos avaliadores baseado
+        shuffle($valuer_ids); 
+        
+        // Seleciona os N primeiros avaliadores
+        $selected_valuers = array_slice($valuer_ids, 0, $this->numberOfValuers);
 
-        return $winners;
-    }
-
-    public function createValuersRelations(): void {
-        $this->evaluationMethodConfiguration->checkPermission('manageEvaluationCommittee');
-        $app = App::i();
-
-        foreach($this->outputValuers as $evaluator_id) {
-            if($evaluator = $app->repo('Agent')->find($evaluator_id)) {
-                $is_reviewer_in_committee = false;
-
-                $agent_relations = $this->evaluationMethodConfiguration->getAgentRelations();
-                foreach ($agent_relations as $relation) {
-                    if ($relation->agent->id == $evaluator->id && $relation->group == $this->committeeName) {
-                        $is_reviewer_in_committee = true;
-                        break;
-                    }
-                }
-
-                if(!$is_reviewer_in_committee) {
-                    $this->evaluationMethodConfiguration->createAgentRelation($evaluator, $this->committeeName, true, true);
-                }
-            }
-        }
+        return $selected_valuers;
     }
 
     public static function nextDrawNumber(EvaluationMethodConfiguration $evaluation_method_configuration, string $committee_name) : int{
@@ -224,6 +221,29 @@ class CommitteeDraw extends \MapasCulturais\Entity
         );
 
         return $draw_number;
+    }
+
+    public function createValuersRelations(): void {
+        $this->evaluationMethodConfiguration->checkPermission('manageEvaluationCommittee');
+        $app = App::i();
+
+        foreach($this->outputValuers as $evaluator_id) {
+            if($evaluator = $app->repo('Agent')->find($evaluator_id)) {
+                $is_reviewer_in_committee = false;
+
+                $agent_relations = $this->evaluationMethodConfiguration->getAgentRelations();
+                foreach ($agent_relations as $relation) {
+                    if ($relation->agent->id == $evaluator->id && $relation->group == $this->committeeName) {
+                        $is_reviewer_in_committee = true;
+                        break;
+                    }
+                }
+
+                if(!$is_reviewer_in_committee) {
+                    $this->evaluationMethodConfiguration->createAgentRelation($evaluator, $this->committeeName, true, true);
+                }
+            }
+        }
     }
 
     protected function canUserCreate($user){

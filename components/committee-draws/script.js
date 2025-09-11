@@ -73,12 +73,12 @@ app.component('committee-draws', {
                         this.drawNumber = data.drawNumber + 1;
                         this.$emit('draw-created');
                         messages.success(this.text('Sorteio de avaliadores finalizado com sucesso'));
+                        popover.close();
                     }
 
                     this.loading = false;
                 });
                 
-                popover.close();
             } catch (error) {
                 this.loading = false;
                 messages.error(error.data?.committeeDraw.join('; ') || error.data);
