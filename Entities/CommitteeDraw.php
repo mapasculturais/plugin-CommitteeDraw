@@ -122,6 +122,8 @@ class CommitteeDraw extends \MapasCulturais\Entity
 
     public function __construct(EvaluationMethodConfiguration $evaluation_method_configuration, string $committee_name, OpportunityFile $file, int $number_of_valuers, ?User $user = null)
     {
+        parent::__construct();
+
         $app = App::i();
         
         $this->evaluationMethodConfiguration = $evaluation_method_configuration;
@@ -133,9 +135,6 @@ class CommitteeDraw extends \MapasCulturais\Entity
         $this->drawNumber = self::nextDrawNumber($evaluation_method_configuration, $committee_name);
         $this->seed = $this->generateSeed();
         $this->inputValuers = $this->extractIdsFromSpreadsheet();
-        
-        parent::__construct();
-
         $this->outputValuers = $this->auditableDraw();
     }
 
