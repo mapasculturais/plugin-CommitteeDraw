@@ -38,6 +38,8 @@ $this->breadcrumb = [
         </template>
     </entity-header>
     
+    <committee-draws-info :entity="entity"></committee-draws-info>
+
     <mc-tabs class="tabs" sync-hash>
         <mc-tab icon="exclamation" label="<?= i::_e('Resultado do sorteio') ?>" slug="result">
             <mc-container>
