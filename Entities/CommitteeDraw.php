@@ -133,8 +133,8 @@ class CommitteeDraw extends \MapasCulturais\Entity
         $this->numberOfValuers = $number_of_valuers;
         $this->user = $user ?: $app->user;
         $this->drawNumber = self::nextDrawNumber($evaluation_method_configuration, $committee_name);
-        $this->seed = $this->generateSeed();
         $this->inputValuers = $this->extractIdsFromSpreadsheet();
+        $this->seed = $this->generateSeed();
         $this->outputValuers = $this->auditableDraw();
     }
 
@@ -167,12 +167,14 @@ class CommitteeDraw extends \MapasCulturais\Entity
         
         $valuers_ids = $this->inputValuers;
         sort($valuers_ids);
-        $valuers_ids = json_encode($valuers_ids);
+
+        $valuers_string = json_encode($valuers_ids);
 
         $timestamp = $this->createTimestamp->format('Y-m-d H:i:s');
 
-        $seed = crc32("$evaluation_method_configuration_id:$committee_name:$draw_number:$timestamp:$valuers_ids");
-
+        $seed = crc32("$evaluation_method_configuration_id:$committee_name:$draw_number:$timestamp:$valuers_string");
+        $app = App::i();
+        $app->log->debug('seed string: ' . "$evaluation_method_configuration_id:$committee_name:$draw_number:$timestamp:$valuers_string");
         return $seed;
     }
 

@@ -15,7 +15,7 @@ $this->import("
 ?>
 
 <div class="committee-draws-result">
-    <mc-entities type="agent" :ids="entity.outputValuers" select="name" order="name ASC">
+    <mc-entities type="agent" :ids="entity.outputValuers" select="name" order="id ASC">
         <template #default='{entities}'>
             <table class="committee-draws-result">
                 <thead>

@@ -33,7 +33,13 @@ class Plugin extends \MapasCulturais\Plugin
 
         $file_group = new Definitions\FileGroup(
             'committeeDraw',
-            ['text/csv', 'application/excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'],
+            [
+                'text/csv', 
+                'application/excel', 
+                'application/vnd.oasis.opendocument.spreadsheet',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
+                'application/vnd.ms-excel',
+            ],
             i::__('O arquivo não é válido'),
         );
         $app->registerFileGroup('opportunity', $file_group);
@@ -49,7 +55,7 @@ class Plugin extends \MapasCulturais\Plugin
         }, 100);
 
         // Exibição da listagem de sorteios na single da oportunidade
-        $app->hook('template(opportunity.single.entity-seals):begin', function() {
+        $app->hook('template(opportunity.single.entity-seals):after', function() {
             $entity = $this->controller->requestedEntity;
 
             if($entity->getClassName() == Opportunity::class) {

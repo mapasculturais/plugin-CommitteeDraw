@@ -85,7 +85,7 @@ $valuer_ids = ' . json_encode($entity->inputValuers) . ';
 sort($valuer_ids);
 
 // cria uma string com a lista de ids dos avaliadores, ordenados de maneira crescente
-$valuers_string = json_encode($valuers_string);   
+$valuers_string = json_encode($valuer_ids);   
 ') ?>
         </li>
 
@@ -104,9 +104,14 @@ $seed = crc32("$evaluation_method_configuration_id:$committee_name:$draw_number:
 // obtém o resultado do sorteio
 $resultado = auditableDraw($seed, $valuer_ids, $number_of_valuers);
 
+// ordena os IDs dos avaliadores sorteados de maneira crescente para facilitar a comparação
+sort($reultado);
+
 // exibe o resultado do sorteio (ids dos avaliadores selecionados)
 print_r($resultado); // Deve ser idêntico ao resultado original registrado
-            ') ?>
+') ?>
+
+            <pre><?php $v = $entity->outputValuers; sort($v); print_r($v); ?></pre>
         </li>
 
     </ol>
