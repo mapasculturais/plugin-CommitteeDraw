@@ -12,6 +12,7 @@ committee-draws-overview
     mc-container
     mc-tabs
     mc-title
+    committee-draws-info
 ');
 
 $committee_draw = $this->controller->requestedEntity;
