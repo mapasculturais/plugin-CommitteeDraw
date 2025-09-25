@@ -9,21 +9,39 @@
 use CommitteeDraw\Entities\CommitteeDraw;
 
 use MapasCulturais\i;
+$this->import('
+    mc-icon
+');
 ?>
 <div class="committee-draws-audit">
-    <h2><?= i::__('Explicação simplificada') ?></h2>
-    <p><?= i::__('O sistema realiza sorteios de avaliadores de forma transparente e auditável. Usamos um "número de controle" único (chamado seed) gerado a partir de informações fixas da comissão (ID da configuração da fase, nome da comissão e número do sorteio). Esse número garante que o mesmo conjunto de dados sempre produzirá o mesmo resultado. Qualquer pessoa pode verificar o processo, bastando reunir as informações originais e repetir os passos do sorteio.') ?></p>
+    <h1><?= i::__('Auditoria do Sorteio de Avaliadores') ?></h1>
+    
+    <p><?= i::__('Detalhes e passos para auditoria do sorteio realizado em') ?> <strong><?= $entity->createTimestamp->format('d/m/Y H:i') ?></strong></p>
 
-    <h2><?= i::__('Explicação Técnica para Auditoria em PHP') ?></h2>
-    <p><?= i::__('A implementação do sorteio auditável utiliza a função auditableDraw, que depende de um seed determinístico para inicializar o gerador de números pseudoaleatórios do PHP (srand). O seed é criado a partir das seguintes variáveis') ?>:</p>
-    <ul>
-        <li><strong><code>$evaluati/on_method_configuration_id</code></strong> - <em><?= i::__('ID da configuração da fase de avaliação') ?></em>;</li>
-        <li><strong><code>$committee_name</code></strong> - <em><?= i::__('nome da comissão') ?></em>;</li>
-        <li><strong><code>$draw_number</code></strong> - <em><?= i::__('número sequencial do sorteio na comissão') ?></em>.</li>
-    </ul>
+    <div class="committee-draws-audit-header">
+        <div class="header-content-wrapper">
+            <div class="committee-icon">
+                <mc-icon  name="exclamation"></mc-icon>
+            </div>
+            <div class="header-text-container">
+                <h2><?= i::__('Explicação simplificada') ?></h2>
+                <p><?= i::__('O sistema realiza sorteios de avaliadores de forma transparente e auditável. Usamos um "número de controle" único (chamado seed) gerado a partir de informações fixas da comissão (ID da configuração da fase, nome da comissão e número do sorteio). Esse número garante que o mesmo conjunto de dados sempre produzirá o mesmo resultado. Qualquer pessoa pode verificar o processo, bastando reunir as informações originais e repetir os passos do sorteio.') ?></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="committee-draws-audit-header">
+        <h2><?= i::__('Explicação Técnica para Auditoria em PHP') ?></h2>
+        <p><?= i::__('A implementação do sorteio auditável utiliza a função auditableDraw, que depende de um seed determinístico para inicializar o gerador de números pseudoaleatórios do PHP (srand). O seed é criado a partir das seguintes variáveis') ?>:</p>
+        <ul>
+            <li><strong><code>$evaluati/on_method_configuration_id</code></strong> - <em><?= i::__('ID da configuração da fase de avaliação') ?></em>;</li>
+            <li><strong><code>$committee_name</code></strong> - <em><?= i::__('nome da comissão') ?></em>;</li>
+            <li><strong><code>$draw_number</code></strong> - <em><?= i::__('número sequencial do sorteio na comissão') ?></em>.</li>
+        </ul>
+    </div>
 
     <h3><?= i::__('Passos para auditoria') ?>:</h3>
-    <ol>        
+    <ol class="custom-list">
         <li>
             <h4><?= i::__('Função <strong>auditableDraw</strong> para reproduzir o sorteio') ?>:</h4>
             <?php highlight_string('<?php
@@ -41,6 +59,7 @@ function auditableDraw($seed, $valuer_ids, $number_of_valuers): array {
 }
 ') ?>
         </li>
+
         <li>
             <h4><?= i::__('Dados de entrada utilizados neste sorteio') ?>:</h4>
             <?php highlight_string('<?php
@@ -79,7 +98,6 @@ $seed = crc32("$evaluation_method_configuration_id:$committee_name:$draw_number:
             ') ?>
         </li>
 
-
         <li>
             <h4><?= i::__('Comparar o resultado com o registro armazenado no sistema') ?>:</h4>
             <?php highlight_string('<?php
@@ -94,9 +112,11 @@ print_r($resultado); // Deve ser idêntico ao resultado original registrado
     </ol>
 
     <h3>Por que é Auditável?</h3>
-    <ul>
-        <li>O <strong>seed</strong> é derivado de dados imutáveis e públicos (ID da configuração, nome da comissão e número do sorteio);</li>
-        <li><strong>srand()</strong> e <strong>shuffle()</strong> são determinísticos quando inicializados com o mesmo seed;</li>
-        <li>A função shuffle do PHP usa o gerador Mersenne Twister, que é reproduzível com o mesmo seed.</li>
-    </ul> 
+    <div class="committee-draws-audit-header">
+        <ul>
+            <li>O <strong>seed</strong> é derivado de dados imutáveis e públicos (ID da configuração, nome da comissão e número do sorteio);</li>
+            <li><strong>srand()</strong> e <strong>shuffle()</strong> são determinísticos quando inicializados com o mesmo seed;</li>
+            <li>A função shuffle do PHP usa o gerador Mersenne Twister, que é reproduzível com o mesmo seed.</li>
+        </ul>
+    </div>
 </div>
