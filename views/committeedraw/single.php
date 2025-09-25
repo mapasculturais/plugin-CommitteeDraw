@@ -32,7 +32,7 @@ $this->breadcrumb = [
 ?>
 <div class="main-app single-1">
     <mc-breadcrumb></mc-breadcrumb>
-    <entity-header :entity="entity.evaluationMethodConfiguration.opportunity.parent">
+    <entity-header :entity="entity.evaluationMethodConfiguration.opportunity.parent || entity.evaluationMethodConfiguration.opportunity">
         <template #description>
             <mc-title><?= $entity_name ?></mc-title>
         </template>

@@ -6,7 +6,7 @@ $all_phases = $entity->allPhases ?? [];
 $evaluation_method_configuration_ids = [];
 
 foreach ($all_phases as $phase) {
-    if (!empty($phase->evaluationMethodConfiguration?->id)) {
+    if ($phase->evaluationMethodConfiguration) {
         $evaluation_method_configuration_ids[] = $phase->evaluationMethodConfiguration->id;
     }
 }
