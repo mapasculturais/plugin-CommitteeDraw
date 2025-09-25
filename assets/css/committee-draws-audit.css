@@ -28,10 +28,177 @@
 
 .committee-draws-audit pre {
   padding: 1em;
-  background-color:#eee;
-  overflow-x: auto;
+  margin-top: 0;
+  background-color: #FFFFFF;
 }
 
 .committee-draws .input-number {
   width: 75px;
+}
+
+/* css committee-draws-audit*/
+.committee-draws-audit-header {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 16px;
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.committee-icon {
+  width: 57px;
+  height: 118px;
+  display: flex;
+  border-radius: 50%;
+  align-items: center;
+}
+
+.committee-icon .iconify {
+  font-size: 3.5rem;
+
+}
+
+.header-content-wrapper {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background-color: #ffffff;
+  padding: 16px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.header-text-container h2 {
+  margin-top: 0;
+}
+
+.header-text-container p {
+  margin-bottom: 0;
+}
+
+.custom-list {
+  list-style: none;
+  counter-reset: step;
+  padding-left: 8px;
+  padding-left: 60px;
+  position: relative;
+}
+
+
+.custom-list::before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 5px;
+  height: calc(100% - 20px);
+}
+
+.custom-list li {
+  counter-increment: step;
+  margin: 20px 0;
+  position: relative;
+  padding-left: 50px;
+}
+
+.custom-list li pre,
+.custom-list li code {
+  display: block;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.custom-list li::before {
+  content: counter(step);
+  position: absolute;
+  left: -14px;
+  top: -2px;
+  width: 47px;
+  height: 47px;
+  border-radius: 100px;
+  background: #fff;
+  color: #d94f3d;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.custom-list li::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 49px;
+  width: 4px;
+  height: calc(100% - 34px);
+  background: #d94f3d;
+}
+
+.custom-list li:last-child::after {
+  display: none;
+}
+
+.custom-list li h4 {
+  font-weight: bold;
+  background: #fff;
+  margin: 0;
+  padding: 15px;
+  line-height: 1;
+  border-radius: 8px 8px 0 0;
+
+}
+
+.committee-draws-audit h3 {
+  font-weight: bold;
+}
+
+code,
+pre {
+  white-space: pre-wrap;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  font-family: monospace;
+}
+
+@media (max-width: 768px) {
+  .header-content-wrapper {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .committee-icon {
+    width: 120px;
+    height: 120px;
+  }
+
+  .committee-icon .iconify {
+    font-size: 5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .custom-list {
+    padding-left: 0;
+  }
+
+  .custom-list::before {
+    left: 20px;
+  }
+
+  .custom-list li {
+    padding-left: 50px;
+  }
+
+  .custom-list li::before {
+    left: 0;
+  }
+
+  .custom-list li::after {
+    left: 22px;
+  }
 }
