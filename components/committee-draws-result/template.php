@@ -17,15 +17,19 @@ $this->import("
 <div class="committee-draws-result">
     <mc-entities type="agent" :ids="entity.outputValuers" select="name" order="name ASC">
         <template #default='{entities}'>
-            <table>
-                <tr>
-                    <td>ID</td>
-                    <td><?= i::__('Nome do avaliador') ?></td>
-                </tr>
-                <tr v-for="entity in entities">
-                    <td>{{entity.id}}</td>
-                    <td><mc-link :entity="entity"></mc-link></td>
-                </tr>
+            <table class="committee-draws-result">
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td><?= i::__('Nome do avaliador') ?></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="entity in entities">
+                        <td>{{entity.id}}</td>
+                        <td><mc-link :entity="entity"></mc-link></td>
+                    </tr>
+                </tbody>
             </table>
         </template>
     </mc-entities>
