@@ -78,6 +78,12 @@ class Plugin extends \MapasCulturais\Plugin
             $app->view->enqueueStyle('app-v2', 'commitee-draws-result', 'css/commitee-draws-result.css');
         });
 
+         //Adiciona css no template committe-draws-explantion
+        $app->hook('GET(committeedraw.single):before', function() use($app) {
+            $app->view->enqueueStyle('app-v2', 'committee-draws-technical-explanation', 'css/commitee-draws-explanation.css');
+        });
+
+
         //Adiciona css no template file-info
         $app->hook('GET(committeedraw.single):before', function() use($app) {
             $app->view->enqueueStyle('app-v2', 'committee-draws-info', 'css/committee-draws-info.css');
