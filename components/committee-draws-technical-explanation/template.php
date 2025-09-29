@@ -30,7 +30,7 @@
 
     <div class="committee-draws-infomation">
         <h2>Passo 1: Criação do Código Único</h2>
-        <p>O sistema combina todas essas informações em um <strong>código único</strong> (chamado de seed), que funciona como uma "impressão digital" do sorteio. Este código garante que cada combinação de informações resulte em um sorteio diferente.
+        <p>O sistema combina todas essas informações em um <strong>código único</strong> (chamado de seed), que funciona como uma "impressão digital" do sorteio. Este código garante que cada combinação de informações resulte em um sorteio diferente.</p>
     </div>
     <div class="committee-draws-infomation">
         <h2>Passo 2: Embaralhamento Justo</h2>
@@ -48,14 +48,14 @@
 
         <h2>Resultado Verificável</h2>
 
-        <p>Qualquer pessoa pode repetir o processo usando as mesmas informações e obterá</strong>exatamente o mesmo resultado.</strong> Se você fizer a verificação e o resultado for diferente, isso significa que alguma informação não está correta.</p>
+        <p>Qualquer pessoa pode repetir o processo usando as mesmas informações e obterá<strong>exatamente o mesmo resultado.</strong> Se você fizer a verificação e o resultado for diferente, isso significa que alguma informação não está correta.</p>
 
         <h2>Imparcialidade Garantida</h2>
 
         <p>O sistema não tem preferências ou viés. Ele trata todos os participantes de forma igualitária, seguindo apenas as regras matemáticas estabelecidas.</p>
         <div class="committee-draws-infomation">
             <h2>Como Fazer Sua Própria Verificação</h2>
-            <p><strong>Para Não-Técnicos:</strong>
+            <p><strong>Para Não-Técnicos:</strong></p>
 
             <p>Se você quiser confirmar que o sorteio foi realizado corretamente:</p>
 
