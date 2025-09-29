@@ -4,15 +4,16 @@ use MapasCulturais\i;
 $this->layout = 'entity';
 
 $this->import('
-committee-draws-overview
-    committee-draws-result
+    committee-draws-overview
     committee-draws-audit
+    committee-draws-info
+    committee-draws-result
+    committee-draws-technical-explanation
     entity-header
     mc-breadcrumb
     mc-container
     mc-tabs
     mc-title
-    committee-draws-info
 ');
 
 $committee_draw = $this->controller->requestedEntity;
@@ -51,6 +52,12 @@ $this->breadcrumb = [
         <mc-tab icon="info" label="<?= i::_e('Como funciona o sorteio de avaliadores e sua auditoria') ?>" slug="audit">
             <mc-container>
                 <committee-draws-audit :entity="entity"></committee-draws-audit>
+            </mc-container>
+        </mc-tab>
+
+        <mc-tab icon="info" label="<?= i::_e('Explicação Técnica para Auditoria em PHP') ?>" slug="explanation">
+            <mc-container>
+                <committee-draws-technical-explanation :entity="entity"></committee-draws-technical-explanation>
             </mc-container>
         </mc-tab>
     </mc-tabs>
