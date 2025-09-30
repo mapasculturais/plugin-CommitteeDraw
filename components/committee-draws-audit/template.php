@@ -25,7 +25,6 @@ $this->import('
             </div>
             <div class="header-text-container">
                 <h2><?= i::__('Explicação simplificada') ?></h2>
-                <p><?= i::__('O sistema realiza sorteios de avaliadores de forma transparente e auditável. Usamos um "número de controle" único (chamado seed) gerado a partir de informações fixas da comissão (ID da configuração da fase, nome da comissão e número do sorteio). Esse número garante que o mesmo conjunto de dados sempre produzirá o mesmo resultado. Qualquer pessoa pode verificar o processo, bastando reunir as informações originais e repetir os passos do sorteio.') ?></p>
             </div>
         </div>
     </div>
