@@ -48,14 +48,14 @@ $this->breadcrumb = [
                 <committee-draws-result :entity="entity"></committee-draws-result> 
                 
             </mc-container>
-        </mc-tab>
-        <mc-tab icon="info" label="<?= i::_e('Como funciona o sorteio de avaliadores e sua auditoria') ?>" slug="audit">
+        </mc-tab>                             
+        <mc-tab icon="info" label="<?= i::_e('Explicação Técnica para Auditoria em PHP') ?>" slug="audit">
             <mc-container>
                 <committee-draws-audit :entity="entity"></committee-draws-audit>
             </mc-container>
         </mc-tab>
 
-        <mc-tab icon="info" label="<?= i::_e('Explicação Técnica para Auditoria em PHP') ?>" slug="explanation">
+        <mc-tab icon="info" label="<?= i::_e('Como funciona o sorteio de avaliadores e sua auditoria') ?>" slug="explanation">
             <mc-container>
                 <committee-draws-technical-explanation :entity="entity"></committee-draws-technical-explanation>
             </mc-container>
