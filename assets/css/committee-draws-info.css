@@ -57,11 +57,12 @@
     gap: 428px;
 }
 
-.file-info-row-footer>div {
+.file-info-row-footer > div {
     display: flex;
     align-items: center;
-    gap: 6px;
     flex-grow: 1;
+    flex-wrap: wrap; 
+    overflow: hidden; 
 }
 
 .download-btn {
