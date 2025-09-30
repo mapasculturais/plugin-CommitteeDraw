@@ -1,13 +1,71 @@
 .committee-draws-technical-explanation-header {
     padding-bottom: 0;
+    white-space: nowrap;
 }
 
 .committee-draws-technical-explanation {
+    grid-template-columns: 65% 32%;
+    gap: 2rem 3%;
+    margin: 2rem auto;
+    max-width: 74.375rem;
+    padding: 0 1rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.with-vertical-bar {
+    position: relative;
+    padding-left: 29px;
+    margin-left: 10px;
+    counter-increment: step-counter;
+    margin-bottom: 20px;
+}
+
+.with-vertical-bar::after {
+    content: '';
+    position: absolute;
+    top: 43px;
+    bottom: -15px;
+    left: -5px;
+    width: 4px;
+    background-color: #d94f3d;
+    z-index: 0;
+}
+
+.with-vertical-bar::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: -24px;
+    top: -1px;
+    width: 42px;
+    height: 41px;
+    background-color: #fff;
+    color: #d94f3d;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
+.with-vertical-bar:first-child {
+    counter-reset: step-counter;
+}
+
+.committee-draws-ingredients,
+.committee-draws-process,
+.committee-draws-infomation .committee-draws-infomation-card {
     background-color: #FFFFFF;
-    margin: 10px;
-    color: #444;
-    font-size: 1.1rem;
-    line-height: 1.5;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    padding: 30px 16px;
+
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .committee-draws-technical-explanation h2 {
@@ -17,10 +75,21 @@
     margin: 10px 0 10px;
 }
 
+.last-step-no-line::after {
+    content: none !important;
+    background-color: transparent !important;
+    left: -9999px !important;
+}
+
 .committee-draws-ingredients,
 .committee-draws-process,
-.committee-draws-infomation {
-    margin-top: 15px;
+.committee-draws-infomation .committee-draws-infomation-card {
+    background-color: #FFFFFF;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 16px 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .committee-draws-ingredients {
@@ -61,10 +130,11 @@
 }
 
 .committee-draws-technical-explanation-header h1 {
-    font-size: 2rem;
+    font-size: 2.4rem;
     font-weight: 700;
     color: #1E1E1E;
     margin: 5px 0;
+    white-space: nowrap;
 }
 
 @media (max-width: 450px) {
@@ -75,8 +145,24 @@
         margin: 5px;
     }
 
+    .committee-draws-technical-explanation-header {
+        padding-top: 20px;
+        padding-bottom: 20px;
+
+        margin-bottom: 0;
+    }
+
     .committee-draws-technical-explanation-header h1 {
+        margin: 0;
+    }
+
+    .committee-draws-technical-explanation-header h1 {
+        white-space: normal !important;
         font-size: 1.75rem;
+    }
+
+    .committee-draws-infomation p {
+        padding-left: 15px;
     }
 
     .committee-draws-technical-explanation h2 {
@@ -96,5 +182,32 @@
 
     .committee-draws-infomation p {
         padding-left: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .tabs-component__header--left {
+        display: block;
+        overflow-x: hidden;
+        white-space: normal;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .tabs-component__header--left>* {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: left;
+        padding: 12px 15px;
+        border-bottom: 1px solid #ddd;
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+    .tabs-component__header--left .is-active {
+        background-color: #f0f0f0;
+        border-left: 4px solid #0099cc;
+        color: #1E1E1E;
     }
 }
