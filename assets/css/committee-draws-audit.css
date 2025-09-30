@@ -48,14 +48,14 @@
 
 .committee-icon {
   width: 57px;
-  height: 118px;
+  height: 53px;
   display: flex;
-  border-radius: 50%;
+  border-radius: 70%;
   align-items: center;
 }
 
 .committee-icon .iconify {
-  font-size: 3.5rem;
+  font-size: 5.5rem;
 
 }
 
@@ -64,7 +64,6 @@
   gap: 16px;
   align-items: flex-start;
   background-color: #ffffff;
-  padding: 16px;
   border-radius: 6px;
   margin-bottom: 15px;
 }
