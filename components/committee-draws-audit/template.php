@@ -14,21 +14,6 @@ $this->import('
 ');
 ?>
 <div class="committee-draws-audit">
-    <h1><?= i::__('Auditoria do Sorteio de Avaliadores') ?></h1>
-    
-    <p><?= i::__('Detalhes e passos para auditoria do sorteio realizado em') ?> <strong><?= $entity->createTimestamp->format('d/m/Y H:i') ?></strong></p>
-
-    <div class="committee-draws-audit-header">
-        <div class="header-content-wrapper">
-            <div class="committee-icon">
-                <mc-icon  name="exclamation"></mc-icon>
-            </div>
-            <div class="header-text-container">
-                <h2><?= i::__('Explicação simplificada') ?></h2>
-            </div>
-        </div>
-    </div>
-
     <div class="committee-draws-audit-header">
         <h2><?= i::__('Explicação Técnica para Auditoria em PHP') ?></h2>
         <p><?= i::__('A implementação do sorteio auditável utiliza a função auditableDraw, que depende de um seed determinístico para inicializar o gerador de números pseudoaleatórios do PHP (srand). O seed é criado a partir das seguintes variáveis') ?>:</p>
@@ -114,13 +99,4 @@ print_r($resultado); // Deve ser idêntico ao resultado original registrado
         </li>
 
     </ol>
-
-    <h3>Por que é Auditável?</h3>
-    <div class="committee-draws-audit-header">
-        <ul>
-            <li>O <strong>seed</strong> é derivado de dados imutáveis e públicos (ID da configuração, nome da comissão e número do sorteio);</li>
-            <li><strong>srand()</strong> e <strong>shuffle()</strong> são determinísticos quando inicializados com o mesmo seed;</li>
-            <li>A função shuffle do PHP usa o gerador Mersenne Twister, que é reproduzível com o mesmo seed.</li>
-        </ul>
-    </div>
 </div>
