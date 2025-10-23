@@ -1,0 +1,73 @@
+
+.committee-draws form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 380px;
+}
+
+.committee-draw-center {
+    display: flex;
+    margin-bottom: 0.8rem;
+}
+
+.committee-draw-center h4 {
+    font-size: 1.2rem;
+    color: #1e1e1e;
+    font-weight: 700;
+}
+
+.committee-draw-icon {
+    color: #0a84ff;
+    vertical-align: middle;
+    margin-right: 0.3rem;
+}
+
+.committee-draw-file {
+    margin-top: 0.5rem;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: #333;
+    cursor: pointer;
+    padding: 6px 0;
+}
+
+.committee-draw-file::-webkit-file-upload-button {
+    background-color: #e8e8e8;
+    color: #333;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.committee-draw-file::-webkit-file-upload-button:hover {
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+.committee-draw-appraiser-text {
+    font-weight: 500;
+    color: #333;
+}
+
+.committee-draw-appraiser {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-top: 0.4rem;
+}
+
+.committee-draw-button {
+    margin-right: 15px;
+}
+
+
+
+
+
