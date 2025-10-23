@@ -89,6 +89,11 @@ class Plugin extends \MapasCulturais\Plugin
             $app->view->enqueueStyle('app-v2', 'committee-draws-info', 'css/committee-draws-info.css');
         });
 
+        //Adiciona css no template committe-draws-modal
+        $app->hook('template(opportunity.edit.tabs):begin', function() use($app) {
+            $app->view->enqueueStyle('app-v2', 'commitee-draws-modal', 'css/commitee-draws-modal.css');
+        });
+
         // Validação do arquivo de sorteio
         $app->hook('entity(OpportunityFile).upload.filesSave:before', function(File $file) use($app) {
             /** @var ControllerUploads $this */
