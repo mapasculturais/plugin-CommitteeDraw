@@ -81,7 +81,7 @@ app.component('committee-draws', {
                 
             } catch (error) {
                 this.loading = false;
-                messages.error(error.data?.committeeDraw.join('; ') || error.data);
+                messages.error(error.data?.committeeDraw?.join('; ') || error.data);
             }
             this.entity.opportunity.enableMessages();
         },

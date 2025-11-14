@@ -41,7 +41,7 @@ $this->import('
                     <div class="col-12">
                         <label>
                             <span class="committee-draw-appraiser-text"><?php i::_e('Quantidade de avaliadores a selecionar') ?>: </span>
-                            <input class="committee-draw-appraiser" type="number" v-model="numberOfValuers" min="1" max="999" class="input-number" />
+                            <input class="committee-draw-appraiser input-number" type="number" v-model="numberOfValuers" min="1" max="999" />
                         </label>
                     </div>
 
